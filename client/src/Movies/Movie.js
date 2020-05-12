@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import MovieCard from "./MovieCard";
+// import EditForm from "./Update";
 
-function Movie({ addToSavedList }) {
+function Movie(props) {
+  console.log(props.props.history)
   const [movie, setMovie] = useState(null);
   const params = useParams();
 
@@ -15,8 +17,13 @@ function Movie({ addToSavedList }) {
   };
 
   const saveMovie = () => {
-    addToSavedList(movie);
+    props.addToSavedList(movie);
   };
+
+  const edit = (ID) => {
+    // let history = useHistory();
+    props.props.history.push(`/update-movie/${ID}`);
+  }
 
   useEffect(() => {
     fetchMovie(params.id);
@@ -33,6 +40,7 @@ function Movie({ addToSavedList }) {
       <div className="save-button" onClick={saveMovie}>
         Save
       </div>
+      <div className="edit" onClick={() => edit(movie.id)}>Edit</div>
     </div>
   );
 }
