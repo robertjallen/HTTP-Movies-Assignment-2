@@ -5,7 +5,7 @@ import MovieCard from "./MovieCard";
 // import EditForm from "./Update";
 
 function Movie(props) {
-  console.log(props.props.history)
+  console.log("Movie", props)
   const [movie, setMovie] = useState(null);
   const params = useParams();
 
@@ -22,7 +22,22 @@ function Movie(props) {
 
   const edit = (ID) => {
     // let history = useHistory();
-    props.props.history.push(`/update-movie/${ID}`);
+    props.history.push(`/update-movie/${ID}`);
+  }
+
+  const deleteMovie = (id) => {
+    axios
+    .delete(`http://localhost:5000/api/movies/${id}`)
+    .then(res => {
+      console.log("delete response", res)
+      let newList = props.movieList.filter((item)=> {
+        return item.id !== res.data 
+      })
+      
+      props.setMovieList(newList)
+
+      props.history.push('/')
+    })
   }
 
   useEffect(() => {
@@ -41,6 +56,7 @@ function Movie(props) {
         Save
       </div>
       <div className="edit" onClick={() => edit(movie.id)}>Edit</div>
+      <div className="delete" onClick={() => deleteMovie(movie.id)}>Delete</div>
     </div>
   );
 }

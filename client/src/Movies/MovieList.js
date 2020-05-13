@@ -8,7 +8,7 @@ function MovieList(props) {
       {
         props.movies.map(movie => (
           <Link key={movie.id} to={`/movies/${movie.id}`}>
-            <MovieCard movie={movie} />
+            <MovieCard movie={movie} props={props}/>
           </Link>
         ))
       }

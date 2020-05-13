@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 
 export default function EditForm(props) {
+
+  // console.log("update", props)
     const [movie, setMovie] = useState({
         id: '',
         title: '',
@@ -42,6 +44,13 @@ export default function EditForm(props) {
         axios.put(`http://localhost:5000/api/movies/${movie.id}`, movie)
         .then(result => {
             console.log("put response",result)
+            props.setMovieList(state => state.map((movie) => {
+              if(movie.id === result.data.id){
+                return {...result.data}
+              }else{
+                return movie
+              }
+            }))
             props.history.push("/")
         })
         .catch(error => {
